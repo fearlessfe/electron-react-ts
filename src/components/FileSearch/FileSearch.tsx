@@ -1,4 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useState, MouseEvent, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
+import './FileSearch.css'
 
 interface FileSearchProps {
   title: string
@@ -42,34 +45,50 @@ const FileSearch: FC<FileSearchProps> = ({ title, onFileSearch }) => {
     }
   }, [inputActive])
   return (
-    <div className="alert alert-primary">
+    <div className="alert alert-primary d-flex justify-content-between align-items-center">
       {!inputActive && 
-        <div className="d-flex justify-content-between align-items-center">
+        <>
           <span>{title}</span>
           <button 
-            className="btn btn-primary"
+            className="icon-button"
             onClick={() => {setInputActive(true)}}
-          >搜索</button>
-        </div>
+          >
+            <FontAwesomeIcon 
+              icon={faSearch}
+              size="lg"
+              title="搜索"
+            />
+          </button>
+        </>
       }
 
       {
         inputActive &&
-        <div className="row">
+        <>
           <input 
-            className="form-control col-8"
+            className="form-control"
             value={value}
             ref={inputNode}
             onChange={handleInputChange}
           />
           <button
-            className="btn btn-primary col-4"
+            className="icon-button"
             onClick={closeSearch}
-          >关闭</button>
-        </div>
+          >
+            <FontAwesomeIcon 
+              icon={faTimes}
+              size="lg"
+              title="关闭"
+            />
+          </button>
+        </>
       }
     </div>
   )
+}
+
+FileSearch.defaultProps = {
+  title: '我的云文档'
 }
 
 export default FileSearch;
