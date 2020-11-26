@@ -1,7 +1,7 @@
-import React, { ChangeEvent, FC, useEffect, useState, MouseEvent, useRef } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
-import './FileSearch.css'
+import useKeyPress from '../../hooks/useKeyPress';
 
 interface FileSearchProps {
   title: string
@@ -12,10 +12,12 @@ const FileSearch: FC<FileSearchProps> = ({ title, onFileSearch }) => {
   const [ inputActive, setInputActive ] = useState(false)
   const [value, setValue] = useState('')
 
+  const enterPressed = useKeyPress(13)
+  const escPressed = useKeyPress(27)
+
   const inputNode = useRef<HTMLInputElement>(null)
 
-  const closeSearch = (e: MouseEvent) => {
-    e.preventDefault()
+  const closeSearch = () => {
     setInputActive(false)
     setValue('')
   }
@@ -25,17 +27,11 @@ const FileSearch: FC<FileSearchProps> = ({ title, onFileSearch }) => {
   }
 
   useEffect(() => {
-    const handleInputEvent = (event: KeyboardEvent) => {
-      const { keyCode } = event;
-      if(keyCode === 13 && inputActive) {
-        onFileSearch && onFileSearch(value)
-      } else if(keyCode === 27 && inputActive) {
-        closeSearch(event as any)
-      }
+    if(enterPressed && inputActive) {
+      onFileSearch && onFileSearch(value)
     }
-    document.addEventListener('keyup', handleInputEvent)
-    return () => {
-      document.removeEventListener('keyup', handleInputEvent)
+    if(escPressed && inputActive) {
+      closeSearch && closeSearch()
     }
   })
 
@@ -45,7 +41,7 @@ const FileSearch: FC<FileSearchProps> = ({ title, onFileSearch }) => {
     }
   }, [inputActive])
   return (
-    <div className="alert alert-primary d-flex justify-content-between align-items-center">
+    <div className="alert alert-primary d-flex justify-content-between align-items-center md-0">
       {!inputActive && 
         <>
           <span>{title}</span>
@@ -64,7 +60,7 @@ const FileSearch: FC<FileSearchProps> = ({ title, onFileSearch }) => {
 
       {
         inputActive &&
-        <>
+        <div className="input-group input-group-sm">
           <input 
             className="form-control"
             value={value}
@@ -81,7 +77,7 @@ const FileSearch: FC<FileSearchProps> = ({ title, onFileSearch }) => {
               title="关闭"
             />
           </button>
-        </>
+        </div>
       }
     </div>
   )
