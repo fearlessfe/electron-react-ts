@@ -20,6 +20,7 @@ const FileSearch: FC<FileSearchProps> = ({ title, onFileSearch }) => {
   const closeSearch = () => {
     setInputActive(false)
     setValue('')
+    onFileSearch && onFileSearch('')
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

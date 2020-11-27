@@ -3,4 +3,5 @@ export interface File {
   title: string;
   body: string;
   createAt: number;
+  [name: string]: any
 }

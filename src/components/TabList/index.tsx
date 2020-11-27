@@ -6,7 +6,7 @@ import { File } from '../../types';
 import './TabList.scss'
 
 interface TabListProps {
-  files: File[]
+  files: Array<File>
   activedId: string
   unsaveIds?: string[]
   onTabClick?: (id: string) => void
@@ -39,7 +39,7 @@ const TabList: FC<TabListProps> = (props) => {
           const withUnsavedMark = unsaveIds?.includes(file.id)
           const classes = classnames({
             'nav-link': true,
-            'active': file.id === activedId,
+            'active': file?.id === activedId,
             'with-unsaved': withUnsavedMark
           })
           return (
