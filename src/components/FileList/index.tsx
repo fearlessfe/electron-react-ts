@@ -3,14 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { faMarkdown } from '@fortawesome/free-brands-svg-icons'
 import useKeyPress from '../../hooks/useKeyPress'
-
-interface File {
-  id: string;
-  title: string;
-  body: string;
-  createAt: number;
-}
-
+import { File } from '../../types';
 interface FileListProps {
   files: File[]
   onFileClick?: (id: string) => void
@@ -68,7 +61,7 @@ const FileList: FC<FileListProps> = (props) => {
       {
         files.map(file => (
           <li 
-            className="list-group-item bg-light d-flex row align-items-center file-item"
+            className="list-group-item bg-light d-flex row align-items-center file-item mx-0"
             key={file.id}
           >
             { file.id !== editStatus &&
@@ -79,9 +72,9 @@ const FileList: FC<FileListProps> = (props) => {
                   size="lg"
                 />
               </span>
-              <span className="col-8 c-link" onClick={() => {handleFileClick(file)}}>{file.title}</span>
+              <span className="col-6 c-link" onClick={() => {handleFileClick(file)}}>{file.title}</span>
               <button 
-                className="icon-button col-1"
+                className="icon-button col-2"
                 onClick={() => {handleFileEdit(file)}}
               >
                 <FontAwesomeIcon 
@@ -91,7 +84,7 @@ const FileList: FC<FileListProps> = (props) => {
                 />
               </button>
               <button 
-                className="icon-button col-1"
+                className="icon-button col-2"
                 onClick={() => {handleFileDelete(file)}}
               >
                 <FontAwesomeIcon 
